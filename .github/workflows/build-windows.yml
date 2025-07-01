@@ -1,4 +1,36 @@
-cat > .github/workflows/build-windows.yml << 'EOF'
+name: Build Windows EXE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip pyinstaller pillow \
+            gspread oauth2client google-auth
+
+      - name: Build executable
+        run: |
+          pyinstaller --onefile --noconsole wizard_core.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: livraison-photographe-windows
+          path: dist/livraison_photographe.execat > .github/workflows/build-windows.yml << 'EOF'
 name: Build Windows EXE
 
 on:
@@ -13,22 +45,36 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Setup Python 3.x
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+name: Build Windows EXE
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip pyinstaller pillow \
-          gspread oauth2client google-auth
+on:
+  push:
+    branches:
+      - main
 
-    - name: Build executable
-      run: |
-        pyinstaller --onefile --noconsole wizard_core.py
+jobs:
+  build:
+    runs-on: windows-latest
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: livraison-photographe-windows
-        path: dist/livraison_photographe.exe
-EOF
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip pyinstaller pillow \
+            gspread oauth2client google-auth
+
+      - name: Build executable
+        run: |
+          pyinstaller --onefile --noconsole wizard_core.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: livraison-photographe-windows
+          path: dist/livraison_photographe.exe
